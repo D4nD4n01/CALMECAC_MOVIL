@@ -1,21 +1,19 @@
-// components/common/Loading.js (opcional, puedes incluirlo dentro del Login si prefieres)
-
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import LottieView from "lottie-react-native";
 
-const Loading = ({ }) => {
-   return (
-      <View style={styles.container}>
-        <DotLottieReact
-          src="https://lottie.host/ac94fb6d-4104-433b-a70a-1623b7d7119b/Srre1XsNIB.lottie"
-          loop
-          autoplay
-          speed={4}
-          style={styles.animation}
-        />
-      </View>
-   );
+const Loading = () => {
+  return (
+    <View style={styles.container}>
+      <LottieView
+        source={{ uri: 'https://lottie.host/ac94fb6d-4104-433b-a70a-1623b7d7119b/Srre1XsNIB.lottie' }}
+        autoPlay
+        loop
+        speed={1}
+        style={styles.animation}
+      />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -24,8 +22,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   animation: {
-    width: 80, // Ajusta el ancho según lo que necesites
-    height: 80, // Ajusta la altura según lo que necesites
+    width: 80,
+    height: 80,
   },
 });
 
