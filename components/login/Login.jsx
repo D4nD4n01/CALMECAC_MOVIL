@@ -67,6 +67,7 @@ const Login = () => {
       const data = await response.json();
       if (!data.success) {
         alert(data.message);
+        setLoading(false)
         return;
       }
 
