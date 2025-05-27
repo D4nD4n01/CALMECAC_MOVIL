@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import paths from "../../paths";
 
 const MenuGroup = ({ navigation }) => {
@@ -71,14 +72,15 @@ const MenuGroup = ({ navigation }) => {
         style={{
           backgroundColor: "#6B0000",
           paddingVertical: 20,
-          paddingHorizontal: 15,
+          paddingHorizontal: 10,
+          margin: 20,
           borderRadius: 10,
-          marginBottom: 20,
+          marginBottom: 10,
           alignItems: "center",
         }}
       >
         {curso && (
-          <Text style={{ fontSize: 22, fontWeight: "bold", color: "white" }}>
+          <Text style={{ fontSize: 24, fontWeight: "bold", color: "white" }}>
             {curso.strSubject} {curso.strClassroom}
           </Text>
         )}
@@ -94,7 +96,7 @@ const MenuGroup = ({ navigation }) => {
             zIndex: 10,
           }}
         >
-          <Text style={{ color: "#FBE9E7", fontWeight: "bold", fontSize: 18 }}>X</Text>
+          <Ionicons name="exit-outline" size={24} color="#FBE9E7" />
         </TouchableOpacity>
       </View>
 

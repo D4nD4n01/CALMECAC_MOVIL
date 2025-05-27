@@ -8,6 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import AsistenciaPasoAPaso from "./AsistenciaPasoAPaso";
 import Loading from "../../utils/Loading";
 import paths from "../../paths";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const ListaAsistencia = ({ route, navigation }) => {
   const [groupId, setGroupId] = useState(0);
@@ -71,9 +72,11 @@ const ListaAsistencia = ({ route, navigation }) => {
         style={{
           backgroundColor: "#6B0000",
           paddingVertical: 20,
+          paddingHorizontal: 10,
+          margin: 30,
+          borderRadius: 10,
+          marginBottom: 10,
           alignItems: "center",
-          justifyContent: "center",
-          elevation: 4,
         }}
       >
         <Text
@@ -90,23 +93,15 @@ const ListaAsistencia = ({ route, navigation }) => {
           onPress={() => navigation.navigate("MenuGroup")}
           style={{
             position: "absolute",
-            top: 20,
+            top: 18,
             right: 20,
             backgroundColor: "#6B0000",
-            padding: 5,
             borderRadius: 10,
+            padding: 5,
             zIndex: 10,
           }}
         >
-          <Text
-            style={{
-              color: "#FBE9E7",
-              fontWeight: "bold",
-              fontSize: 18,
-            }}
-          >
-            X
-          </Text>
+          <Ionicons name="exit-outline" size={24} color="#FBE9E7" />
         </TouchableOpacity>
       </View>
 
@@ -124,20 +119,22 @@ const ListaAsistencia = ({ route, navigation }) => {
       {/* Botón lector QR */}
       <View
         style={{
-          flexDirection: "row",
-          justifyContent: "center",
-          marginTop: 30,
-          paddingHorizontal: 20,
+          flex: 1,
+          backgroundColor: "#FFF5F5",
+          alignItems: "center",
+          padding: 20,
         }}
       >
         <TouchableOpacity
           onPress={abrirLectorQR}
           style={{
-            backgroundColor: "#8B0000",
-            paddingVertical: 12,
-            paddingHorizontal: 20,
-            borderRadius: 8,
-          }}
+            backgroundColor: "#6B0000",
+            paddingVertical: 10,
+            paddingHorizontal: 10,
+            margin: 10,
+            borderRadius: 10,
+            marginBottom: 10,
+        }}
         >
           <Text
             style={{

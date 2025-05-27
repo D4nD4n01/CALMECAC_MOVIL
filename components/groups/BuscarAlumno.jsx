@@ -3,6 +3,7 @@ import { View, TextInput, Text, FlatList, TouchableOpacity } from "react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage"; // ✅ Asegúrate de tenerlo instalado
 import Loading from "../../utils/Loading";
 import paths from "../../paths";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const BuscarAlumno = ({ navigation }) => {
   const [busqueda, setBusqueda] = useState("");
@@ -69,9 +70,10 @@ const BuscarAlumno = ({ navigation }) => {
         style={{
           backgroundColor: "#6B0000",
           paddingVertical: 20,
+          paddingHorizontal: 10,
+          margin: 35,
+          borderRadius: 10,
           alignItems: "center",
-          justifyContent: "center",
-          elevation: 4,
         }}
       >
         <Text
@@ -87,23 +89,15 @@ const BuscarAlumno = ({ navigation }) => {
           onPress={() => navigation.navigate("MenuGroup")}
           style={{
             position: "absolute",
-            top: 20,
+            top: 18,
             right: 20,
             backgroundColor: "#6B0000",
-            padding: 5,
             borderRadius: 10,
+            padding: 5,
             zIndex: 10,
           }}
         >
-          <Text
-            style={{
-              color: "#FBE9E7",
-              fontWeight: "bold",
-              fontSize: 18,
-            }}
-          >
-            X
-          </Text>
+          <Ionicons name="exit-outline" size={24} color="#FBE9E7" />
         </TouchableOpacity>
       </View>
 

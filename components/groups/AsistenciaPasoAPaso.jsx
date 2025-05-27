@@ -89,11 +89,11 @@ const styles = StyleSheet.create({
   },
   botonTexto: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
   },
   title: {
-    fontSize: 18,
+    fontSize: 25,
     color: "#6B0000",
     textAlign: "center",
   },
