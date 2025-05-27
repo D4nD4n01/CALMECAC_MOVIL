@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Platform } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import Group from "./Group.jsx";
-import { getUserID } from "../../utils/auth.js";
 import paths from "../../paths";
 import AddGroupModal from "./AddGroupModal";
 
@@ -12,9 +11,13 @@ const MyGroups = () => {
   const [groups, setGroups] = useState([]);
   const [showAddGroup, setShowAddGroup] = useState(false);
 
-  if (Platform.OS === "web") {
-    return null; // o <Text>Esta app solo está disponible en dispositivos móviles.</Text>
-  }
+    const getUserID = async () => {
+    try {
+      return await AsyncStorage.getItem("userID");
+    } catch (error) {
+      console.error("Error obteniendo userID:", error);
+    }
+  };
 
   const cerrarSesion = async () => {
     try {
