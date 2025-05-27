@@ -6,7 +6,7 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AsistenciaPasoAPaso from "./AsistenciaPasoAPaso";
-import Loading from "@/utils/Loading";
+import Loading from "../../utils/Loading";
 import paths from "../../paths";
 
 const ListaAsistencia = ({ route, navigation }) => {

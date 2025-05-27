@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, TextInput, Text, FlatList, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // ✅ Asegúrate de tenerlo instalado
-import Loading from "@/utils/Loading";
+import Loading from "../../utils/Loading";
 import paths from "../../paths";
 
 const BuscarAlumno = ({ navigation }) => {

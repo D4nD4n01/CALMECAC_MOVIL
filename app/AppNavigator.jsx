@@ -3,7 +3,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Login from "../components/login/Login";
 import Register from "../components/login/Register";
 import MyGroups from "../components/groups/MyGroups.jsx"
-import Index from "./index.jsx";
 import MenuGroup from "../components/groups/MenuGroup.jsx"
 import ListaAsistencia from "../components/groups/ListaAsistencia.jsx"
 import BuscarAlumno from "../components/groups/BuscarAlumno.jsx"
