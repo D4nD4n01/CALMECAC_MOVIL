@@ -9,7 +9,7 @@ const AsistenciaPasoAPaso = ({ navigation, groupId, dataGroup }) => {
     if (indiceActual < dataGroup.length - 1) {
       setIndiceActual(indiceActual + 1);
     } else {
-      navigation.navigate("MenuGroup");
+      navigation.replace("MenuGroup");
     }
   };
 

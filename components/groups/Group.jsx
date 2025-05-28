@@ -12,7 +12,7 @@ const Group = ({ data, update }) => {
   const handlePress = async () => {
     try {
       await AsyncStorage.setItem("groupID", data.idCourse.toString());
-      navigation.navigate("MenuGroup", { data });
+      navigation.replace("MenuGroup", { data });
     } catch (error) {
       console.error("Error guardando groupID:", error);
     }

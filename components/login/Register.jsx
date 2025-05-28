@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity,Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import paths from "../../paths"
+import logo from "../../assets/images/logo.jpg";
 
 const Register = ({ }) => {
 
@@ -63,9 +64,15 @@ const Register = ({ }) => {
           paddingVertical: 30,
         }}
       >
-        <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>
-          Registro
-        </Text>
+        <Image
+          source={logo}
+          style={{
+            width: 100,
+            height: 100,
+            borderRadius: 20,
+            backgroundColor: "gray",
+          }}
+        />
       </View>
 
       <View
@@ -73,6 +80,7 @@ const Register = ({ }) => {
           backgroundColor: "white",
           width: "85%",
           padding: 20,
+          margin:50,
           borderRadius: 10,
           shadowColor: "#000",
           shadowOffset: { width: 0, height: 2 },
@@ -133,27 +141,27 @@ const Register = ({ }) => {
             borderRadius: 5,
             alignItems: "center",
           }}
-           onPress={registrarUsuario}
+          onPress={registrarUsuario}
         >
           <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>
             Registrarse
           </Text>
         </TouchableOpacity>
-        
+
         <Text
           style={{
-          textAlign: "center",
-          marginTop: 10,
-          fontSize: 14,
-          color: "#333",
+            textAlign: "center",
+            marginTop: 10,
+            fontSize: 14,
+            color: "#333",
           }}
         >
-        Regrese al inicio de sesión{" "}
-        <Text
-          style={{ color: "#A52A2A", fontWeight: "bold" }} // enlace color morena
-          onPress={() => navigation.navigate("Login")}
-        >
-          Inicio de sesión
+          Regrese al inicio de sesión{" "}
+          <Text
+            style={{ color: "#A52A2A", fontWeight: "bold" }} // enlace color morena
+            onPress={() => navigation.navigate("Login")}
+          >
+            Inicio de sesión
           </Text>
         </Text>
       </View>

@@ -32,7 +32,7 @@ const MenuGroup = ({ navigation }) => {
   const salirDelGrupo = async () => {
     try {
       await AsyncStorage.removeItem("groupID");
-      navigation.navigate("MyGroups");
+      navigation.replace("MyGroups");
     } catch (error) {
       console.error("Error al salir del grupo:", error);
     }
@@ -80,7 +80,7 @@ const MenuGroup = ({ navigation }) => {
         }}
       >
         {curso && (
-          <Text style={{ fontSize: 24, fontWeight: "bold", color: "white" }}>
+          <Text style={{ fontSize: 20, fontWeight: "bold", color: "white" }}>
             {curso.strSubject} {curso.strClassroom}
           </Text>
         )}
@@ -96,7 +96,7 @@ const MenuGroup = ({ navigation }) => {
             zIndex: 10,
           }}
         >
-          <Ionicons name="exit-outline" size={24} color="#FBE9E7" />
+          <Ionicons name="exit-outline" size={20} color="#FBE9E7" />
         </TouchableOpacity>
       </View>
 
@@ -108,7 +108,7 @@ const MenuGroup = ({ navigation }) => {
         }}
       >
         <TouchableOpacity
-          onPress={() => navigation.navigate("ListaAsistencia")}
+          onPress={() => navigation.replace("ListaAsistencia")}
           style={{
             backgroundColor: "#8B0000",
             paddingVertical: 12,
@@ -123,7 +123,7 @@ const MenuGroup = ({ navigation }) => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => navigation.navigate("BuscarAlumno")}
+          onPress={() => navigation.replace("BuscarAlumno")}
           style={{
             backgroundColor: "#8B0000",
             paddingVertical: 12,

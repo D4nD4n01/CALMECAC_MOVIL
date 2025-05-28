@@ -11,7 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import paths from "../../paths";
 import Loading from "../../utils/Loading";
 
-const AddGroupModal = ({ visible, onClose, update = () => {}, groupData = {} }) => {
+const AddGroupModal = ({ visible, onClose, update = () => { }, groupData = {} }) => {
   const [subject, setSubject] = useState(groupData.strSubject || "");
   const [grade, setGrade] = useState(groupData.intGrade?.toString() || "");
   const [hour, setHour] = useState(groupData.strHour || "");
@@ -30,8 +30,15 @@ const AddGroupModal = ({ visible, onClose, update = () => {}, groupData = {} }) 
   const handleSave = async () => {
     setLoading(true);
 
-    if (!subject || !grade || !hour || !classroom) {
-      alert("Todos los campos son obligatorios");
+    // Validar que los campos no estén vacíos o con solo espacios
+    if (
+      !subject.trim() ||
+      !hour.trim() ||
+      !classroom.trim() ||
+      !grade.trim() ||
+      parseInt(grade) < 1
+    ) {
+      alert("Todos los campos son obligatorios y no deben contener solo espacios.");
       setLoading(false);
       return;
     }
@@ -40,9 +47,9 @@ const AddGroupModal = ({ visible, onClose, update = () => {}, groupData = {} }) 
 
     const obj = {
       intMode: isEditMode ? 2 : 1,
-      strSubject: subject,
-      strClassroom: classroom,
-      strHour: hour,
+      strSubject: subject.trim(),
+      strClassroom: classroom.trim(),
+      strHour: hour.trim(),
       intGrade: parseInt(grade),
       idTeacher: userID,
     };
@@ -72,6 +79,7 @@ const AddGroupModal = ({ visible, onClose, update = () => {}, groupData = {} }) 
       setLoading(false);
     }
   };
+
 
   const handleDelete = async () => {
     try {
@@ -109,7 +117,7 @@ const AddGroupModal = ({ visible, onClose, update = () => {}, groupData = {} }) 
       <View
         style={{
           flex: 1,
-          backgroundColor: "rgba(0,0,0,0.4)",
+          backgroundColor: "rgba(0,0,0,.9)",
           justifyContent: "center",
           alignItems: "center",
         }}
@@ -204,7 +212,7 @@ const AddGroupModal = ({ visible, onClose, update = () => {}, groupData = {} }) 
                 }}
                 onPress={handleDelete}
               >
-                <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 16 }}>
+                <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 14 }}>
                   Eliminar grupo
                 </Text>
               </TouchableOpacity>
@@ -216,15 +224,16 @@ const AddGroupModal = ({ visible, onClose, update = () => {}, groupData = {} }) 
                 backgroundColor: "#8B0000",
                 padding: 12,
                 borderRadius: 8,
-                flex: 1,
-                marginTop: isEditMode ? 0 : 15,
+                flex: isEditMode ? 1 : undefined, // solo aplica flex en modo edición
+                marginTop: isEditMode ? 0 : 10,
                 alignItems: "center",
               }}
             >
-              <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 16 }}>
-                Guardar
+              <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 14 }}>
+                {isEditMode ? "Actualizar" : "Guardar"}
               </Text>
             </TouchableOpacity>
+
           </View>
         </View>
       </View>

@@ -90,7 +90,7 @@ const ListaAsistencia = ({ route, navigation }) => {
         </Text>
 
         <TouchableOpacity
-          onPress={() => navigation.navigate("MenuGroup")}
+          onPress={() => navigation.replace("MenuGroup")}
           style={{
             position: "absolute",
             top: 18,

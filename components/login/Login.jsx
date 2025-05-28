@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Ionicons from "react-native-vector-icons/Ionicons"; // 👈 Importa los íconos
 import logo from "../../assets/images/logo.jpg";
 import Loading from "../../utils/Loading";
 import paths from "../../paths";
@@ -17,6 +18,7 @@ const Login = () => {
   const [usuario, setUsuario] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const guardarUserID = async (id) => {
     try {
@@ -40,7 +42,7 @@ const Login = () => {
       const userID = await obtenerUserID();
       if (userID) {
         setLoading(false);
-        navigation.replace("MyGroups"); // Asegúrate de que exista esta pantalla si la usarás
+        navigation.replace("MyGroups");
       }
       setLoading(false);
     };
@@ -54,6 +56,7 @@ const Login = () => {
       usuario,
       password,
     };
+    console.log(body);
 
     try {
       const response = await fetch(paths.URL + paths.LOGIN, {
@@ -67,7 +70,7 @@ const Login = () => {
       const data = await response.json();
       if (!data.success) {
         alert(data.message);
-        setLoading(false)
+        setLoading(false);
         return;
       }
 
@@ -103,8 +106,8 @@ const Login = () => {
         <Image
           source={logo}
           style={{
-            width: 80,
-            height: 80,
+            width: 100,
+            height: 100,
             borderRadius: 20,
             backgroundColor: "gray",
           }}
@@ -116,6 +119,7 @@ const Login = () => {
           backgroundColor: "white",
           width: "85%",
           padding: 20,
+          margin:50,
           borderRadius: 10,
           elevation: 5,
         }}
@@ -142,27 +146,44 @@ const Login = () => {
             paddingHorizontal: 10,
             marginBottom: 15,
           }}
-          placeholder="Ingrese su correo"
+          placeholder="Ingrese su nombre de usuario"
           placeholderTextColor="#666"
           value={usuario}
           onChangeText={setUsuario}
         />
 
-        <TextInput
-          style={{
-            height: 40,
-            borderWidth: 1,
-            borderColor: "#ccc",
-            borderRadius: 5,
-            paddingHorizontal: 10,
-            marginBottom: 15,
-          }}
-          placeholder="Ingrese su contraseña"
-          secureTextEntry
-          placeholderTextColor="#666"
-          value={password}
-          onChangeText={setPassword}
-        />
+        {/* TextInput de contraseña con ícono de ojo */}
+        <View style={{ position: "relative", marginBottom: 15 }}>
+          <TextInput
+            style={{
+              height: 40,
+              borderWidth: 1,
+              borderColor: "#ccc",
+              borderRadius: 5,
+              paddingHorizontal: 10,
+              paddingRight: 40,
+            }}
+            placeholder="Ingrese su contraseña"
+            secureTextEntry={!showPassword}
+            placeholderTextColor="#666"
+            value={password}
+            onChangeText={setPassword}
+          />
+          <TouchableOpacity
+            onPress={() => setShowPassword(!showPassword)}
+            style={{
+              position: "absolute",
+              right: 10,
+              top: 8,
+            }}
+          >
+            <Ionicons
+              name={showPassword ? "eye" : "eye-off"}
+              size={22}
+              color="#A52A2A"
+            />
+          </TouchableOpacity>
+        </View>
 
         <TouchableOpacity
           style={{
