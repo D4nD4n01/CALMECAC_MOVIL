@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "name": "calmecac_movil",
+    "slug": "calmecac_movil",
+    "version": "1.0.0",
+    "sdkVersion": "53.0.0",
+    "plugins": ["expo-barcode-scanner"],
+    "android": {
+      "permissions": ["CAMERA"]
+    }
+  }
+}

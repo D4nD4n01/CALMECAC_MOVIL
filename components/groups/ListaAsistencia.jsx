@@ -10,16 +10,22 @@ import Loading from "../../utils/Loading";
 import paths from "../../paths";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const ListaAsistencia = ({ route, navigation }) => {
+const ListaAsistencia = ({ navigation, route }) => {
   const [groupId, setGroupId] = useState(0);
   const [dataIdGroup, setDataIdGroup] = useState(false);
   const [dataGroup, setDataGroup] = useState(false);
   const [groups, setGroups] = useState([]);
 
   const abrirLectorQR = () => {
-    console.log("Abrir lector QR próximamente...");
-    alert("Abrir lector QR próximamente...");
+    navigation.replace("QRScanner")
   };
+
+  useEffect(() => {
+    if (route.params?.qrData) {
+      console.log("QR Escaneado:", route.params.qrData);
+    }
+  }, [route.params?.qrData]);
+
 
   const obtenerGrupoID = async () => {
     try {
@@ -134,7 +140,7 @@ const ListaAsistencia = ({ route, navigation }) => {
             margin: 10,
             borderRadius: 10,
             marginBottom: 10,
-        }}
+          }}
         >
           <Text
             style={{

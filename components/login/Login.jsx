@@ -42,7 +42,7 @@ const Login = () => {
       const userID = await obtenerUserID();
       if (userID) {
         setLoading(false);
-        navigation.replace("MyGroups");
+        navigation.navigate("MyGroups");
       }
       setLoading(false);
     };
@@ -78,7 +78,7 @@ const Login = () => {
       setUsuario("");
       setPassword("");
       setLoading(false);
-      navigation.replace("MyGroups");
+      navigation.navigate("MyGroups");
     } catch (error) {
       setLoading(false);
       console.error("Error al ingresar:", error);
