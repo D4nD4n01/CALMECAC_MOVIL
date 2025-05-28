@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { View, TextInput, Text, FlatList, TouchableOpacity } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage"; // ✅ Asegúrate de tenerlo instalado
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loading from "../../utils/Loading";
 import paths from "../../paths";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AddStudentModal from "./AddStudentModal";
+
 
 const BuscarAlumno = ({ navigation }) => {
   const [busqueda, setBusqueda] = useState("");
   const [groups, setGroups] = useState([]);
   const [groupId, setGroupId] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [showAddStudent, setShowAddStudent] = useState(false);
+
 
   const filtrados = groups.filter((item) =>
     item.strName.toLowerCase().includes(busqueda.toLowerCase())
   );
 
+  
   const obtenerGrupoID = async () => {
     try {
       setLoading(true);
@@ -102,8 +107,25 @@ const BuscarAlumno = ({ navigation }) => {
       </View>
 
       <View style={{ padding: 20, flex: 1 }}>
-        {loading && <Loading />}
+        
+        {/* Botón para abrir el modal */}
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#6B0000",
+            padding: 12,
+            borderRadius: 8,
+            alignItems: "center",
+            marginBottom: 20,
+          }}
+          onPress={() => setShowAddStudent(true)}
+        >
+          <Text style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}>
+            Agregar Alumno
+          </Text>
+        </TouchableOpacity>
 
+        {loading && <Loading />}
+        
         <TextInput
           style={{
             borderWidth: 1,
@@ -162,6 +184,17 @@ const BuscarAlumno = ({ navigation }) => {
           />
         )}
       </View>
+
+      {/* Modal de agregar alumno */}
+      {showAddStudent && (
+        <AddStudentModal
+          visible={showAddStudent}
+          onClose={() => setShowAddStudent(false)}
+          update={obtenerDataGroup}
+        />
+      )}
+
+
     </View>
   );
 };

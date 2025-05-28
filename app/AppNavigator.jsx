@@ -7,7 +7,6 @@ import MenuGroup from "../components/groups/MenuGroup.jsx"
 import ListaAsistencia from "../components/groups/ListaAsistencia.jsx"
 import BuscarAlumno from "../components/groups/BuscarAlumno.jsx"
 
-
 const Stack = createStackNavigator();
 
 export default function AppNavigator() {
