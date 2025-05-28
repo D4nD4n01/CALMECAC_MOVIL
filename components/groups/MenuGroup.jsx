@@ -67,23 +67,22 @@ const MenuGroup = ({ navigation }) => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#FFF5F5", padding: 20 }}>
+    <View style={{ flex: 1, backgroundColor: "#FFF5F5" }}>
       <View
         style={{
           backgroundColor: "#6B0000",
           paddingVertical: 20,
           paddingHorizontal: 10,
-          margin: 20,
+          margin: 30,
           borderRadius: 10,
           marginBottom: 10,
           alignItems: "center",
         }}
       >
-        {curso && (
-          <Text style={{ fontSize: 20, fontWeight: "bold", color: "white" }}>
-            {curso.strSubject} {curso.strClassroom}
-          </Text>
-        )}
+        <Text style={{ fontSize: 20, fontWeight: "bold", color: "white" }}>
+          { curso? curso.strSubject: "grupo"} {curso?curso.strClassroom:"salon"}
+        </Text>
+
         <TouchableOpacity
           onPress={salirDelGrupo}
           style={{
