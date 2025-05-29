@@ -5,6 +5,7 @@ import Loading from "../../utils/Loading";
 import paths from "../../paths";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AddStudentModal from "./AddStudentModal";
+import EditStudentModal from "./EditStudentModal";
 
 
 const BuscarAlumno = ({ navigation }) => {
@@ -13,13 +14,15 @@ const BuscarAlumno = ({ navigation }) => {
   const [groupId, setGroupId] = useState(0);
   const [loading, setLoading] = useState(false);
   const [showAddStudent, setShowAddStudent] = useState(false);
+  const [editingStudent, setEditingStudent] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
 
 
   const filtrados = groups.filter((item) =>
     item.strName.toLowerCase().includes(busqueda.toLowerCase())
   );
 
-  
+
   const obtenerGrupoID = async () => {
     try {
       setLoading(true);
@@ -57,6 +60,11 @@ const BuscarAlumno = ({ navigation }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const openEditModal = (student) => {
+    setEditingStudent(student);
+    setShowEditModal(true);
   };
 
   useEffect(() => {
@@ -107,7 +115,7 @@ const BuscarAlumno = ({ navigation }) => {
       </View>
 
       <View style={{ padding: 20, flex: 1 }}>
-        
+
         {/* Botón para abrir el modal */}
         <TouchableOpacity
           style={{
@@ -125,7 +133,7 @@ const BuscarAlumno = ({ navigation }) => {
         </TouchableOpacity>
 
         {loading && <Loading />}
-        
+
         <TextInput
           style={{
             borderWidth: 1,
@@ -156,6 +164,7 @@ const BuscarAlumno = ({ navigation }) => {
                   borderRadius: 8,
                   marginBottom: 10,
                   elevation: 2,
+                  position: "relative",
                 }}
               >
                 <Text
@@ -167,6 +176,21 @@ const BuscarAlumno = ({ navigation }) => {
                 >
                   {item.intNumberList}. {item.strName}
                 </Text>
+
+                {/* Botón Editar */}
+                <TouchableOpacity
+                  onPress={() => openEditModal(item)}
+                  style={{
+                    position: "absolute",
+                    top: 10,
+                    right: 10,
+                    backgroundColor: "#8B0000",
+                    padding: 8,
+                    borderRadius: 8,
+                  }}
+                >
+                  <Ionicons name="create-outline" size={20} color="white" />
+                </TouchableOpacity>
               </View>
             )}
             ListEmptyComponent={
@@ -193,8 +217,15 @@ const BuscarAlumno = ({ navigation }) => {
           update={obtenerDataGroup}
         />
       )}
-
-
+      
+      {showEditModal && (
+        <EditStudentModal
+          visible={showEditModal}
+          onClose={() => setShowEditModal(false)}
+          student={editingStudent}
+          update={obtenerDataGroup}
+        />
+      )}
     </View>
   );
 };
