@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity,Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import paths from "../../paths"
-import logo from "../../assets/images/logo.jpg";
+import logo from "../../assets/images/logo3.jpg";
 
 const Register = ({ }) => {
 

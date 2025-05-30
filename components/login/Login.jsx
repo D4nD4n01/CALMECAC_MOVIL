@@ -9,7 +9,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from "react-native-vector-icons/Ionicons"; // 👈 Importa los íconos
-import logo from "../../assets/images/logo.jpg";
+import logo from "../../assets/images/logo3.jpg";
 import Loading from "../../utils/Loading";
 import paths from "../../paths";
 
