@@ -12,8 +12,10 @@ import paths from '../../paths';
 import Loading from '../../utils/Loading';
 
 const AddStudentModal = ({ visible, onClose, update, studentData = {} }) => {
+  console.log("student: ",studentData)
   const [strName, setStrName] = useState(studentData.strName || '');
-  const [intNumberList, setIntNumberList] = useState(String(studentData.intNumberList) || String(0));
+  const [intNumberList, setIntNumberList] = useState(studentData.intNumberList?.toString() || "");
+  const [intNumberControl, setIntNumberControl] = useState(studentData.intNumberControl?.toString() || "")
   const isEditMode = studentData?.idCourse > 0;
   const [loading, setLoading] = useState(false)
 
@@ -22,6 +24,12 @@ const AddStudentModal = ({ visible, onClose, update, studentData = {} }) => {
       const numList = parseInt(intNumberList, 10);
       if (isNaN(numList) || numList < 1) {
         alert("Por favor, ingresa un número de lista válido.");
+        return;
+      }
+
+      const numControl = parseInt(intNumberControl, 10);
+      if (isNaN(numList) || numList < 1) {
+        alert("Por favor, ingresa un número de control válido.");
         return;
       }
 
@@ -36,7 +44,8 @@ const AddStudentModal = ({ visible, onClose, update, studentData = {} }) => {
         intMode: 2,
         strName,
         intNumberList: numList,
-        idStudent: studentData.idStudent
+        idStudent: studentData.idStudent,
+        intNumberControl: numControl
       }
         :
         {
@@ -44,6 +53,7 @@ const AddStudentModal = ({ visible, onClose, update, studentData = {} }) => {
           strName,
           intNumberList: numList,
           idCourse: groupID,
+          intNumberControl: numControl
         };
       console.log(bodyData)
       const response = await fetch(paths.URL + paths.STUDENTS, {
@@ -57,14 +67,15 @@ const AddStudentModal = ({ visible, onClose, update, studentData = {} }) => {
       }
 
       const result = await response.json();
+      console.log("respuesta; ", result)
       if (result.success == false) {
-       let msg = isEditMode?"editar":"añadir"
-       alert("No se a podido ",msg," el alumno")
+        let msg = isEditMode ? "editar" : "añadir"
+        alert("No se a podido ", msg, " el alumno")
       }
-       setStrName('');
-        setIntNumberList('');
-        update();
-        onClose();
+      setStrName('');
+      setIntNumberList('');
+      update();
+      onClose();
 
     } catch (error) {
       console.error('Error:', error);
@@ -124,9 +135,17 @@ const AddStudentModal = ({ visible, onClose, update, studentData = {} }) => {
 
           <TextInput
             style={styles.input}
-            placeholder="Números de lista (Ej. 1)"
+            placeholder="Número de lista (Ej. 1)"
             value={intNumberList}
             onChangeText={setIntNumberList}
+            keyboardType="numeric"
+          />
+
+          <TextInput
+            style={styles.input}
+            placeholder="Número de control (Ej. 2025001)"
+            value={intNumberControl}
+            onChangeText={setIntNumberControl}
             keyboardType="numeric"
           />
 
@@ -171,11 +190,11 @@ const AddStudentModal = ({ visible, onClose, update, studentData = {} }) => {
             </TouchableOpacity>
           </View>
 
-
         </View>
       </View>
     </Modal>
   );
+
 };
 
 const styles = StyleSheet.create({
