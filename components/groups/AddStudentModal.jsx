@@ -27,7 +27,6 @@ const AddStudentModal = ({ visible, onClose, update, studentData = {} }) => {
     update()
   };
 
-
   const insertarAlumno = async () => {
     try {
       const numList = parseInt(intNumberList, 10);
