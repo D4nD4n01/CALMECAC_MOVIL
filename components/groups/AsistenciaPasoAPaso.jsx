@@ -21,7 +21,7 @@ const AsistenciaPasoAPaso = ({ navigation, dataGroup }) => {
           strDate: hoy,
           idCourse: alumno.idCourse,
           idStudent: alumno.idStudent,
-          blnAssist: tipo === "sí" ? 1 : 0,
+          blnAssist: tipo,
           intNumberControl: alumno.intNumberControl,
           intNumberList: alumno.intNumberList,
           strName: alumno.strName,
@@ -69,14 +69,14 @@ const AsistenciaPasoAPaso = ({ navigation, dataGroup }) => {
         <View style={styles.botonesContainer}>
           <TouchableOpacity
             style={[styles.boton, { backgroundColor: "#B71C1C" }]}
-            onPress={() => registrarAsistencia("no")}
+            onPress={() => registrarAsistencia(0)}
           >
             <Text style={styles.botonTexto}>No asistió</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[styles.boton, { backgroundColor: "#4E342E" }]}
-            onPress={() => registrarAsistencia("sí")}
+            onPress={() => registrarAsistencia(1)}
           >
             <Text style={styles.botonTexto}>Asistió</Text>
           </TouchableOpacity>
