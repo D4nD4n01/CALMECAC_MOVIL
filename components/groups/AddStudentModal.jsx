@@ -20,10 +20,11 @@ const AddStudentModal = ({ visible, onClose, update, studentData = {} }) => {
   const isEditMode = studentData?.idCourse > 0;
   const [loading, setLoading] = useState(false)
   const [confirmVisible, setConfirmVisible] = useState(false);
-  
+
   const handleDeleteConfirmed = () => {
-  setConfirmVisible(false);
-  handleDelete(); // Esta es la función que realmente borra al estudiante
+    setConfirmVisible(false);
+    handleDelete(); 
+    update()
   };
 
 
@@ -189,8 +190,6 @@ const AddStudentModal = ({ visible, onClose, update, studentData = {} }) => {
                 handleDeleteConfirmed(); // Aquí llamas a la función que ya elimina al alumno
               }}
               message="¿Seguro que quieres eliminar este alumno?"
-              confirmText="Sí, eliminar"
-              cancelText="Cancelar"
             />
 
             <TouchableOpacity

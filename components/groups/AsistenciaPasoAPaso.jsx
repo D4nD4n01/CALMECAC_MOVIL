@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const AsistenciaPasoAPaso = ({ navigation, groupId, dataGroup }) => {
+const AsistenciaPasoAPaso = ({ navigation, dataGroup }) => {
+  console.log("lista de asistencia: ", dataGroup)
   const [indiceActual, setIndiceActual] = useState(0);
 
   const marcarAsistencia = (tipo) => {

@@ -22,8 +22,10 @@ const AddGroupModal = ({ visible, onClose, update = () => { }, groupData = {} })
   const isEditMode = groupData?.idCourse > 0;
   const [confirmVisible, setConfirmVisible] = useState(false);
 
-  const handleDeleteConfirmed  = () => {
-  setConfirmVisible(false);
+  const handleDeleteConfirmed = () => {
+    handleDelete()
+    update()
+    setConfirmVisible(false);
   };
 
 
