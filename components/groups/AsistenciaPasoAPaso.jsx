@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import paths from "../../paths";
 
-const AsistenciaPasoAPaso = ({ navigation, dataGroup }) => {
+const AsistenciaPasoAPaso = ({ navigation, dataGroup, isNew}) => {
 
   const [indiceActual, setIndiceActual] = useState(0);
 
@@ -11,12 +11,8 @@ const AsistenciaPasoAPaso = ({ navigation, dataGroup }) => {
     const hoy = new Date().toISOString().split("T")[0];
 
     try {
-      const response = await fetch(paths.URL + paths.ATTENDANCE, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+
+      let body = isNew? {
           intMode: 1,
           strDate: hoy,
           idCourse: alumno.idCourse,
@@ -26,25 +22,35 @@ const AsistenciaPasoAPaso = ({ navigation, dataGroup }) => {
           intNumberList: alumno.intNumberList,
           strName: alumno.strName,
           strSubject: alumno.strSubject,
-        }),
+      } : {
+        intMode: 2,
+        idAttendance:alumno.idAttendance,
+        blnAssist: tipo,
+      }
+      const response = await fetch(paths.URL + paths.ATTENDANCE, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
       });
 
       const result = await response.json();
 
       if (!result.success) {
-        alert("Error", "No se pudo registrar la asistencia.");
+        alert("Error No se pudo registrar la asistencia.");
         return;
       }
     } catch (error) {
       console.error("Error al registrar asistencia:", error);
-      alert("Error", "Hubo un problema con el servidor.");
+      alert("Error Hubo un problema con el servidor.");
       return;
     }
 
     if (indiceActual < dataGroup.length - 1) {
       setIndiceActual(indiceActual + 1);
     } else {
-      alert("Finalizado", "Se registró la asistencia de todos los alumnos.");
+      alert("Finalizado Se registró la asistencia de todos los alumnos.");
       navigation.replace("MenuGroup");
     }
   };

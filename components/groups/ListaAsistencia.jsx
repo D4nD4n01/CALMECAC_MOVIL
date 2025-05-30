@@ -16,6 +16,7 @@ const ListaAsistencia = ({ navigation, route }) => {
   const [groups, setGroups] = useState([]);
   const [finalGroupData, setFinalGroupData] = useState([]);
   const [mostrarAsistencia, setMostrarAsistencia] = useState(false);
+  const [isNew, setIsNew] = useState(true)
 
   const abrirLectorQR = () => {
     navigation.replace("QRScanner");
@@ -77,20 +78,23 @@ const ListaAsistencia = ({ navigation, route }) => {
         if (result.new) {
           setFinalGroupData(grupo);
           setMostrarAsistencia(true);
+          setIsNew(true)
         } else if (result.allAttended) {
           alert("Todos los alumnos han asistido hoy.");
+          console.log("Ya asistieron todos")
           setMostrarAsistencia(false);
           navigation.replace("MenuGroup")
         } else {
+          setIsNew(false)
           setFinalGroupData(result.data); // solo los que no han asistido
           setMostrarAsistencia(true);
         }
       } else {
-        alert("Error", "No se pudo consultar la asistencia.");
+        alert("Error No se pudo consultar la asistencia.");
       }
     } catch (error) {
       console.error("Error al consultar asistencia:", error);
-      alert("Error", "Error al consultar la asistencia.");
+      alert("Error Error al consultar la asistencia.");
     }
   };
 
@@ -138,7 +142,7 @@ const ListaAsistencia = ({ navigation, route }) => {
 
       {/* Componente paso a paso */}
       {mostrarAsistencia ? (
-        <AsistenciaPasoAPaso navigation={navigation} dataGroup={finalGroupData} />
+        <AsistenciaPasoAPaso navigation={navigation} dataGroup={finalGroupData} isNew={isNew}/>
       ) : (
         <Loading />
       )}
