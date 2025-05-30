@@ -135,8 +135,9 @@ const MenuGroup = ({ navigation }) => {
             Buscar Alumno
           </Text>
         </TouchableOpacity>
+        
         <TouchableOpacity
-          onPress={() => navigation.replace("BuscarAlumno")}
+          onPress={() => navigation.replace("ListaAlumnos")}
           style={{
             backgroundColor: "#8B0000",
             paddingVertical: 12,
