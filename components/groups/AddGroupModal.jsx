@@ -10,6 +10,8 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import paths from "../../paths";
 import Loading from "../../utils/Loading";
+import ConfirmDelete from "./ConfirmDelete";
+
 
 const AddGroupModal = ({ visible, onClose, update = () => { }, groupData = {} }) => {
   const [subject, setSubject] = useState(groupData.strSubject || "");
@@ -18,6 +20,12 @@ const AddGroupModal = ({ visible, onClose, update = () => { }, groupData = {} })
   const [classroom, setClassroom] = useState(groupData.strClassroom || "");
   const [loading, setLoading] = useState(false);
   const isEditMode = groupData?.idCourse > 0;
+  const [confirmVisible, setConfirmVisible] = useState(false);
+
+  const handleDeleteConfirmed  = () => {
+  setConfirmVisible(false);
+  };
+
 
   const getUserID = async () => {
     try {
@@ -210,13 +218,22 @@ const AddGroupModal = ({ visible, onClose, update = () => { }, groupData = {} })
                   marginRight: 8,
                   alignItems: "center",
                 }}
-                onPress={handleDelete}
+                onPress={() => setConfirmVisible(true)}
               >
                 <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 14 }}>
                   Eliminar grupo
                 </Text>
               </TouchableOpacity>
             )}
+
+            <ConfirmDelete
+              visible={confirmVisible}
+              onClose={() => setConfirmVisible(false)}
+              onConfirm={handleDeleteConfirmed}
+              message="¿Seguro que quieres eliminar este grupo?"
+              confirmText="Sí, eliminar"
+              cancelText="Cancelar"
+            />
 
             <TouchableOpacity
               onPress={handleSave}

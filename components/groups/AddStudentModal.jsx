@@ -10,6 +10,8 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import paths from '../../paths';
 import Loading from '../../utils/Loading';
+import ConfirmDelete from "./ConfirmDelete";
+
 
 const AddStudentModal = ({ visible, onClose, update, studentData = {} }) => {
   const [strName, setStrName] = useState(studentData.strName || '');
@@ -17,6 +19,13 @@ const AddStudentModal = ({ visible, onClose, update, studentData = {} }) => {
   const [intNumberControl, setIntNumberControl] = useState(studentData.intNumberControl?.toString() || "")
   const isEditMode = studentData?.idCourse > 0;
   const [loading, setLoading] = useState(false)
+  const [confirmVisible, setConfirmVisible] = useState(false);
+  
+  const handleDeleteConfirmed = () => {
+  setConfirmVisible(false);
+  handleDelete(); // Esta es la función que realmente borra al estudiante
+  };
+
 
   const insertarAlumno = async () => {
     try {
@@ -164,13 +173,25 @@ const AddStudentModal = ({ visible, onClose, update, studentData = {} }) => {
                   marginRight: 8,
                   alignItems: "center",
                 }}
-                onPress={handleDelete}
+                onPress={() => setConfirmVisible(true)}
               >
                 <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 14 }}>
                   Eliminar alumno
                 </Text>
               </TouchableOpacity>
             )}
+
+            <ConfirmDelete
+              visible={confirmVisible}
+              onClose={() => setConfirmVisible(false)}
+              onConfirm={() => {
+                setConfirmVisible(false);
+                handleDeleteConfirmed(); // Aquí llamas a la función que ya elimina al alumno
+              }}
+              message="¿Seguro que quieres eliminar este alumno?"
+              confirmText="Sí, eliminar"
+              cancelText="Cancelar"
+            />
 
             <TouchableOpacity
               onPress={insertarAlumno}
