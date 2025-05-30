@@ -12,7 +12,6 @@ import paths from '../../paths';
 import Loading from '../../utils/Loading';
 
 const AddStudentModal = ({ visible, onClose, update, studentData = {} }) => {
-  console.log("student: ",studentData)
   const [strName, setStrName] = useState(studentData.strName || '');
   const [intNumberList, setIntNumberList] = useState(studentData.intNumberList?.toString() || "");
   const [intNumberControl, setIntNumberControl] = useState(studentData.intNumberControl?.toString() || "")
