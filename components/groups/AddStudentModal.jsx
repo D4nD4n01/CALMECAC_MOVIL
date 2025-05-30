@@ -5,36 +5,47 @@ import {
   TouchableOpacity,
   Text,
   StyleSheet,
-  Alert,
   Modal,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import paths from '../../paths';
+import Loading from '../../utils/Loading';
 
-const AddStudentModal = ({ visible, onClose, update }) => {
-  const [strName, setStrName] = useState('');
-  const [numeroListaTexto, setNumeroListaTexto] = useState('');
+const AddStudentModal = ({ visible, onClose, update, studentData = {} }) => {
+  const [strName, setStrName] = useState(studentData.strName || '');
+  const [intNumberList, setIntNumberList] = useState(String(studentData.intNumberList) || 0);
+  const isEditMode = studentData?.idCourse > 0;
+  const [loading, setLoading] = useState(false)
 
   const insertarAlumno = async () => {
     try {
-      const groupID = await AsyncStorage.getItem('groupID');
-      if (!groupID) {
-        Alert.alert('Error', 'No se encontró el ID del curso.');
+      const numList = parseInt(intNumberList, 10);
+      if (isNaN(numList) || numList < 1) {
+        alert("Por favor, ingresa un número de lista válido.");
         return;
       }
 
-      const intNumberList = numeroListaTexto
-        .split(',')
-        .map(num => parseInt(num.trim()))
-        .filter(num => !isNaN(num));
+      const groupID = await AsyncStorage.getItem('groupID');
+      if (!groupID) {
+        alert('Error', 'No se encontró el ID del curso.');
+        return;
+      }
 
-      const bodyData = {
+
+      const bodyData = isEditMode?{
+        intMode: 2,
+        strName,
+        intNumberList:numList,
+        idStudent:studentData.idStudent
+      }
+      :
+      {
         intMode: 1,
         strName,
-        intNumberList,
+        intNumberList:numList,
         idCourse: groupID,
       };
-
+      console.log(bodyData)
       const response = await fetch(paths.URL + paths.STUDENTS, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -46,22 +57,50 @@ const AddStudentModal = ({ visible, onClose, update }) => {
       }
 
       const result = await response.json();
-      console.log('Alumno agregado:', result);
-      Alert.alert('Éxito', 'Alumno agregado correctamente');
       setStrName('');
-      setNumeroListaTexto('');
+      setIntNumberList('');
       update();
       onClose();
-
     } catch (error) {
       console.error('Error:', error);
-      Alert.alert('Error', 'No se pudo agregar el alumno');
+      alert('Error', 'No se pudo agregar el alumno');
     }
   };
+
+  const handleDelete = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(paths.URL + paths.STUDENTS, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          intMode: 3,
+          idStudent: studentData.idStudent,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        update();
+        onClose();
+      } else {
+        alert("Error al eliminar el grupo: " + (result.message || "Intenta de nuevo."));
+      }
+    } catch (error) {
+      console.error("Error en la eliminación:", error);
+      alert("Error de red al intentar eliminar el grupo.");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <Modal transparent visible={visible} animationType="slide" onRequestClose={onClose}>
       <View style={styles.modalBackground}>
+        {loading ? <Loading /> : null}
         <View style={styles.modalContainer}>
 
           {/* Botón cerrar */}
@@ -80,15 +119,53 @@ const AddStudentModal = ({ visible, onClose, update }) => {
 
           <TextInput
             style={styles.input}
-            placeholder="Números de lista (Ej. 101, 202, 303)"
-            value={numeroListaTexto}
-            onChangeText={setNumeroListaTexto}
+            placeholder="Números de lista (Ej. 1)"
+            value={intNumberList}
+            onChangeText={setIntNumberList}
             keyboardType="numeric"
           />
 
-          <TouchableOpacity onPress={insertarAlumno} style={styles.saveButton}>
-            <Text style={styles.saveButtonText}>Agregar Alumno</Text>
-          </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: isEditMode ? "row" : "column",
+              justifyContent: "space-between",
+            }}
+          >
+            {isEditMode && (
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#B22222",
+                  padding: 12,
+                  borderRadius: 8,
+                  flex: 1,
+                  marginRight: 8,
+                  alignItems: "center",
+                }}
+                onPress={handleDelete}
+              >
+                <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 14 }}>
+                  Eliminar alumno
+                </Text>
+              </TouchableOpacity>
+            )}
+
+            <TouchableOpacity
+              onPress={insertarAlumno}
+              style={{
+                backgroundColor: "#8B0000",
+                padding: 12,
+                borderRadius: 8,
+                flex: isEditMode ? 1 : undefined,
+                marginTop: isEditMode ? 0 : 10,
+                alignItems: "center",
+              }}
+            >
+              <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 14 }}>
+                {isEditMode ? "Editar" : "Agregar Alumno"}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
 
         </View>
       </View>
