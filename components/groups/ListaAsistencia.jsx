@@ -78,7 +78,7 @@ const ListaAsistencia = ({ navigation, route }) => {
           setFinalGroupData(grupo);
           setMostrarAsistencia(true);
         } else if (result.allAttended) {
-          alert("Asistencia", "Todos los alumnos han asistido hoy.");
+          alert("Todos los alumnos han asistido hoy.");
           setMostrarAsistencia(false);
         } else {
           setFinalGroupData(result.data); // solo los que no han asistido
