@@ -18,6 +18,8 @@
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-native-camera": "^4.2.1",
+    "react-native-document-picker": "^9.3.1",
+    "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "~2.24.0",
     "react-native-permissions": "^5.4.0",
     "react-native-reanimated": "~3.17.4",
@@ -26,7 +28,8 @@
     "react-native-vector-icons": "^10.2.0",
     "react-native-vision-camera": "^4.6.4",
     "react-scripts": "^5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "expo start",
