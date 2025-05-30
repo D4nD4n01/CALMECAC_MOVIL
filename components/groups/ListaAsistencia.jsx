@@ -19,7 +19,8 @@ const ListaAsistencia = ({ navigation, route }) => {
   const [isNew, setIsNew] = useState(true)
 
   const abrirLectorQR = () => {
-    navigation.replace("QRScanner");
+    alert("Boton aun en proceso")
+    //navigation.replace("QRScanner");
   };
 
   useEffect(() => {
@@ -81,7 +82,6 @@ const ListaAsistencia = ({ navigation, route }) => {
           setIsNew(true)
         } else if (result.allAttended) {
           alert("Todos los alumnos han asistido hoy.");
-          console.log("Ya asistieron todos")
           setMostrarAsistencia(false);
           navigation.replace("MenuGroup")
         } else {
