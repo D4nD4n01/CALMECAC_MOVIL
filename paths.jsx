@@ -4,7 +4,8 @@ const paths  = {
     LOGIN: "wsCRUDlogin",
     COURSE: "wsCRUDcourse",
     getCOURSE: "getcourse",
-    STUDENTS: "wsCRUDstudents"
+    STUDENTS: "wsCRUDstudents",
+    ATTENDANCE: "wsCRUDattendance"
   };
   
   export default paths ;

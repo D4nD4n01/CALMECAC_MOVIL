@@ -12,12 +12,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const ListaAsistencia = ({ navigation, route }) => {
   const [groupId, setGroupId] = useState(0);
-  const [dataIdGroup, setDataIdGroup] = useState(false);
   const [dataGroup, setDataGroup] = useState(false);
   const [groups, setGroups] = useState([]);
+  const [finalGroupData, setFinalGroupData] = useState([]);
+  const [mostrarAsistencia, setMostrarAsistencia] = useState(false);
 
   const abrirLectorQR = () => {
-    navigation.replace("QRScanner")
+    navigation.replace("QRScanner");
   };
 
   useEffect(() => {
@@ -26,12 +27,10 @@ const ListaAsistencia = ({ navigation, route }) => {
     }
   }, [route.params?.qrData]);
 
-
   const obtenerGrupoID = async () => {
     try {
       const id = await AsyncStorage.getItem("groupID");
       setGroupId(parseInt(id));
-      setDataIdGroup(true);
     } catch (e) {
       console.error("Error obteniendo el ID del grupo:", e);
     }
@@ -41,11 +40,33 @@ const ListaAsistencia = ({ navigation, route }) => {
     try {
       const response = await fetch(paths.URL + paths.STUDENTS, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ intMode: 0, idCourse: groupId }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setGroups(result.data);
+        verificarAsistencia(result.data); // pasa los estudiantes al siguiente paso
+      } else {
+        console.error("Error al obtener alumnos:", result.message);
+      }
+    } catch (error) {
+      console.error("Error en la petición:", error);
+    }
+  };
+
+  const verificarAsistencia = async (grupo) => {
+    try {
+      const hoy = new Date().toISOString().split("T")[0];
+
+      const response = await fetch(paths.URL + paths.ATTENDANCE, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           intMode: 0,
+          strDate: hoy,
           idCourse: groupId,
         }),
       });
@@ -53,13 +74,22 @@ const ListaAsistencia = ({ navigation, route }) => {
       const result = await response.json();
 
       if (result.success) {
-        setGroups(result.data);
-        setDataGroup(true);
+        if (result.new) {
+          setFinalGroupData(grupo);
+          setMostrarAsistencia(true);
+        } else if (result.allAttended) {
+          alert("Asistencia", "Todos los alumnos han asistido hoy.");
+          setMostrarAsistencia(false);
+        } else {
+          setFinalGroupData(result.data); // solo los que no han asistido
+          setMostrarAsistencia(true);
+        }
       } else {
-        console.error("Error al obtener alumnos:", result.message);
+        alert("Error", "No se pudo consultar la asistencia.");
       }
     } catch (error) {
-      console.error("Error en la petición:", error);
+      console.error("Error al consultar asistencia:", error);
+      alert("Error", "Error al consultar la asistencia.");
     }
   };
 
@@ -85,13 +115,7 @@ const ListaAsistencia = ({ navigation, route }) => {
           alignItems: "center",
         }}
       >
-        <Text
-          style={{
-            color: "#fff",
-            fontSize: 24,
-            fontWeight: "bold",
-          }}
-        >
+        <Text style={{ color: "#fff", fontSize: 24, fontWeight: "bold" }}>
           Asistencia
         </Text>
 
@@ -112,25 +136,14 @@ const ListaAsistencia = ({ navigation, route }) => {
       </View>
 
       {/* Componente paso a paso */}
-      {dataIdGroup && dataGroup ? (
-        <AsistenciaPasoAPaso
-          navigation={navigation}
-          groupId={groupId}
-          dataGroup={groups}
-        />
+      {mostrarAsistencia ? (
+        <AsistenciaPasoAPaso navigation={navigation} dataGroup={finalGroupData} />
       ) : (
         <Loading />
       )}
 
       {/* Botón lector QR */}
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: "#FFF5F5",
-          alignItems: "center",
-          padding: 20,
-        }}
-      >
+      <View style={{ flex: 1, backgroundColor: "#FFF5F5", alignItems: "center", padding: 20 }}>
         <TouchableOpacity
           onPress={abrirLectorQR}
           style={{
@@ -142,13 +155,7 @@ const ListaAsistencia = ({ navigation, route }) => {
             marginBottom: 10,
           }}
         >
-          <Text
-            style={{
-              color: "#fff",
-              fontWeight: "bold",
-              fontSize: 16,
-            }}
-          >
+          <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 16 }}>
             Con QR
           </Text>
         </TouchableOpacity>
