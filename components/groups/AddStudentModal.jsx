@@ -13,7 +13,7 @@ import Loading from '../../utils/Loading';
 
 const AddStudentModal = ({ visible, onClose, update, studentData = {} }) => {
   const [strName, setStrName] = useState(studentData.strName || '');
-  const [intNumberList, setIntNumberList] = useState(String(studentData.intNumberList) || 0);
+  const [intNumberList, setIntNumberList] = useState(String(studentData.intNumberList) || String(0));
   const isEditMode = studentData?.idCourse > 0;
   const [loading, setLoading] = useState(false)
 
@@ -32,19 +32,19 @@ const AddStudentModal = ({ visible, onClose, update, studentData = {} }) => {
       }
 
 
-      const bodyData = isEditMode?{
+      const bodyData = isEditMode ? {
         intMode: 2,
         strName,
-        intNumberList:numList,
-        idStudent:studentData.idStudent
+        intNumberList: numList,
+        idStudent: studentData.idStudent
       }
-      :
-      {
-        intMode: 1,
-        strName,
-        intNumberList:numList,
-        idCourse: groupID,
-      };
+        :
+        {
+          intMode: 1,
+          strName,
+          intNumberList: numList,
+          idCourse: groupID,
+        };
       console.log(bodyData)
       const response = await fetch(paths.URL + paths.STUDENTS, {
         method: 'POST',
@@ -57,10 +57,15 @@ const AddStudentModal = ({ visible, onClose, update, studentData = {} }) => {
       }
 
       const result = await response.json();
-      setStrName('');
-      setIntNumberList('');
-      update();
-      onClose();
+      if (result.success == false) {
+       let msg = isEditMode?"editar":"añadir"
+       alert("No se a podido ",msg," el alumno")
+      }
+       setStrName('');
+        setIntNumberList('');
+        update();
+        onClose();
+
     } catch (error) {
       console.error('Error:', error);
       alert('Error', 'No se pudo agregar el alumno');
