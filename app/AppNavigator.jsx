@@ -7,6 +7,7 @@ import MenuGroup from "../components/groups/MenuGroup.jsx"
 import ListaAsistencia from "../components/groups/ListaAsistencia.jsx"
 import BuscarAlumno from "../components/groups/BuscarAlumno.jsx"
 import QRScanner from "../components/qr/QRScanner";
+import ListaAlumnos from "../components/groups/ListaAlumnos"
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,7 @@ export default function AppNavigator() {
       <Stack.Screen name="ListaAsistencia" component={ListaAsistencia} options={{ headerShown: false }} />
       <Stack.Screen name="BuscarAlumno" component={BuscarAlumno} options={{ headerShown: false }} />
       <Stack.Screen name="QRScanner" component={QRScanner} options={{ headerShown: false }} />
+      <Stack.Screen name="ListaAlumnos" component={ListaAlumnos} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }
