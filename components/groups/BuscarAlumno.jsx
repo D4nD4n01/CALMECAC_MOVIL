@@ -5,7 +5,7 @@ import Loading from "../../utils/Loading";
 import paths from "../../paths";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AddStudentModal from "./AddStudentModal";
-import EditStudentModal from "./EditStudentModal";
+import Student from "./Student";
 
 
 const BuscarAlumno = ({ navigation }) => {
@@ -62,11 +62,6 @@ const BuscarAlumno = ({ navigation }) => {
     }
   };
 
-  const openEditModal = (student) => {
-    setEditingStudent(student);
-    setShowEditModal(true);
-  };
-
   useEffect(() => {
     obtenerGrupoID();
   }, []);
@@ -115,8 +110,6 @@ const BuscarAlumno = ({ navigation }) => {
       </View>
 
       <View style={{ padding: 20, flex: 1 }}>
-
-        {/* Botón para abrir el modal */}
         <TouchableOpacity
           style={{
             backgroundColor: "#6B0000",
@@ -151,78 +144,32 @@ const BuscarAlumno = ({ navigation }) => {
           placeholderTextColor="#aaa"
         />
 
-        {groupId > 0 && (
-          <FlatList
-            data={filtrados}
-            keyExtractor={(item) => item.idStudent.toString()}
-            renderItem={({ item }) => (
-              <View
-                style={{
-                  backgroundColor: "#FBE9E7",
-                  paddingVertical: 12,
-                  paddingHorizontal: 16,
-                  borderRadius: 8,
-                  marginBottom: 10,
-                  elevation: 2,
-                  position: "relative",
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: 18,
-                    color: "#6B0000",
-                    fontWeight: "500",
-                  }}
-                >
-                  {item.intNumberList}. {item.strName}
-                </Text>
+        <FlatList
+          data={filtrados}
+          keyExtractor={(item) => item.idStudent.toString()}
+          renderItem={({ item }) => (
+            <Student student={item} update={obtenerDataGroup}/>
+          )}
+          ListEmptyComponent={
+            <Text
+              style={{
+                textAlign: "center",
+                marginTop: 20,
+                color: "#6B0000",
+                fontSize: 16,
+              }}
+            >
+              No se encontraron alumnos.
+            </Text>
+          }
+        />
 
-                {/* Botón Editar */}
-                <TouchableOpacity
-                  onPress={() => openEditModal(item)}
-                  style={{
-                    position: "absolute",
-                    top: 10,
-                    right: 10,
-                    backgroundColor: "#8B0000",
-                    padding: 8,
-                    borderRadius: 8,
-                  }}
-                >
-                  <Ionicons name="create-outline" size={20} color="white" />
-                </TouchableOpacity>
-              </View>
-            )}
-            ListEmptyComponent={
-              <Text
-                style={{
-                  textAlign: "center",
-                  marginTop: 20,
-                  color: "#6B0000",
-                  fontSize: 16,
-                }}
-              >
-                No se encontraron alumnos.
-              </Text>
-            }
-          />
-        )}
       </View>
 
-      {/* Modal de agregar alumno */}
       {showAddStudent && (
         <AddStudentModal
           visible={showAddStudent}
           onClose={() => setShowAddStudent(false)}
-          update={obtenerDataGroup}
-        />
-      )}
-      
-      {showEditModal && (
-        <EditStudentModal
-          visible={showEditModal}
-          onClose={() => setShowEditModal(false)}
-          student={editingStudent}
           update={obtenerDataGroup}
         />
       )}
